@@ -6,6 +6,7 @@ class Brand extends Admin_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->load->model('brand_model');
 	}
 	
 	#显示品牌信息
@@ -35,7 +36,28 @@ class Brand extends Admin_Controller{
 		}
 		else{
 			#通过验证
-			
+			$arr = array(
+				'brand_name' => $this->input->post('brand_name',true),
+				'brand_desc' => $this->input->post('brand_desc',true),
+				'url' => $this->input->post('url',true),
+				'sort_order' => $this->input->post('sort_order',true),
+				'is_show' => $this->input->post('is_show')
+			);
+			if($this->brand_model->brand_add($arr)){
+				$data = array(
+				'url' => base_url('admin/brand/index'),
+				'message' => '添加品牌成功',
+				'wait' => 2
+			);
+			$this->load->view('message.html', $data);
+			}else{
+				$data = array(
+				'url' => base_url('admin/brand/add'),
+				'message' => '添加品牌失败',
+				'wait' => 3
+				);
+			$this->load->view('message.html', $data);
+			}
 			
 		}
 
