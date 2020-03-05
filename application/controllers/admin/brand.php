@@ -7,11 +7,14 @@ class Brand extends Admin_Controller{
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->model('brand_model');
+		$this->load->library('upload');#加载upload库，配置在applicaion/config/upload.php中
 	}
 	
 	#显示品牌信息
 	public function index(){
-		$this->load->view('brand_list.html');
+		#获取品牌信息
+		$data['brands'] = $this->brand_model->brand_list();
+		$this->load->view('brand_list.html', $data);
 	}
 
 	#显示添加品牌页面
@@ -37,12 +40,6 @@ class Brand extends Admin_Controller{
 				#通过验证
 
 				#添加品牌logo，文件上传类处理方法
-				$config['upload_path'] = './public/uploads/';
-				$config['allowed_types'] = 'gif|jpg|png';
-				$config['max_size'] = '0';
-				// $config['max_width'] = '1024';
-				// $config['max_height'] = '768';
-				$this->load->library('upload', $config);
 				if($this->upload->do_upload('logo')){
 					#上传成功
 					$fileInfo = $this->upload->data();
@@ -80,5 +77,14 @@ class Brand extends Admin_Controller{
 						$this->load->view('message.html', $data);
 					}	
 			}
+	}
+
+	public function brand_delete($id){
+		$logo = $this->brand_model->brand_get_logo_by_id($id);
+		if($logo != NULL){
+			$this->brand_model->delete_brand_by_id($id);
+			delete_files('./public/uploads/'.$logo);
+		}		
+		$this->index();
 	}
 }
