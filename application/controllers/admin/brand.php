@@ -45,18 +45,18 @@ class Brand extends Admin_Controller{
 			);
 			if($this->brand_model->brand_add($arr)){
 				$data = array(
-				'url' => base_url('admin/brand/index'),
-				'message' => '添加品牌成功',
-				'wait' => 2
-			);
+					'url' => base_url('admin/brand/index'),
+					'message' => '添加品牌成功',
+					'wait' => 2
+				);
 			$this->load->view('message.html', $data);
 			}else{
 				$data = array(
-				'url' => base_url('admin/brand/add'),
-				'message' => '添加品牌失败',
-				'wait' => 3
+					'url' => base_url('admin/brand/add'),
+					'message' => '添加品牌失败',
+					'wait' => 3
 				);
-			$this->load->view('message.html', $data);
+				$this->load->view('message.html', $data);
 			}
 			
 		}
