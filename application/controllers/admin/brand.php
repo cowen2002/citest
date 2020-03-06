@@ -23,8 +23,9 @@ class Brand extends Admin_Controller{
 	}
 
 	#显示编辑品牌页面
-	public function edit(){
-		$this->load->view('brand_edit.html');
+	public function edit($brand_id){
+		$data['brand_info'] = $this->brand_model->get_brand_by_id($brand_id);
+		$this->load->view('brand_edit.html', $data);
 	}
 
 	#添加品牌
@@ -84,7 +85,55 @@ class Brand extends Admin_Controller{
 		if($logo != NULL){
 			$this->brand_model->delete_brand_by_id($id);
 			delete_files('./public/uploads/'.$logo);
-		}		
+		}
 		$this->index();
 	}
+
+	public function brand_update(){
+		$this->form_validation->set_rules('brand_name', '品牌名称','trim|required');
+		if($this->form_validation->run()==false){
+			#未通过验证
+			$data['message'] = validation_errors();
+			$data['url'] = base_url('admin/brand/index');
+			$data['wait'] = 5;
+			$this->load->view('message.html', $data);
+		}else{
+				#通过验证
+				$arr = array(
+							'brand_id' => $this->input->post('brand_id',true),
+							'brand_name' => $this->input->post('brand_name',true),
+							'brand_desc' => $this->input->post('brand_desc',true),
+							'url' => $this->input->post('url',true),
+							'sort_order' => $this->input->post('sort_order',true),
+							'is_show' => $this->input->post('is_show'),
+							'logo' => $this->input->post('logo_file_name')
+						);
+
+				#添加品牌logo，文件上传类处理方法
+				if($this->upload->do_upload('logo')){
+					#上传成功
+					$fileInfo = $this->upload->data();
+					$arr['logo'] = $fileInfo['file_name'];
+				}
+				if($this->brand_model->brand_update($arr)){
+					$data = array(
+						'url' => base_url('admin/brand/index'),
+						'message' => '修改品牌成功',
+						'wait' => 2
+					);
+					$this->load->view('message.html', $data);
+				}else{
+					$data = array(
+						'url' => base_url('admin/brand/index'),
+						'message' => '修改品牌失败',
+						'wait' => 3
+					);
+					$this->load->view('message.html', $data);
+				}
+			}
+	}#end for brand_update;
+
+
+
+
 }

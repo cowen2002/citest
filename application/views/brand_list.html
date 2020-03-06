@@ -47,7 +47,7 @@
         <td align="right"><span onclick="javascript:listTable.edit(this, 'edit_sort_order', 1)"><?php echo $brand['sort_order']; ?></span></td>
         <td align="center"><img src="<?php echo base_url('application/views/images/yes.gif');?>" onclick="listTable.toggle(this, 'toggle_show', 1)"></td>
         <td align="center">
-          <a href="brand.php?act=edit&amp;id=1" title="编辑">编辑</a> |
+          <a href="<?php echo base_url('admin/brand/edit'.'/'.$brand['brand_id']) ?>" title="编辑">编辑</a> |
           <a href="<?php echo base_url('admin/brand/brand_delete'.'/'.$brand['brand_id']) ?>" onclick="listTable.remove(1, '你确认要删除选定的商品品牌吗？')" title="编辑">移除</a> 
         </td>
       </tr>
