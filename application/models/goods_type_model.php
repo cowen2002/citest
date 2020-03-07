@@ -26,6 +26,14 @@ class Goods_type_model extends CI_Model{
 		$this->db->delete('ci_goods_type', array('goods_type_id'=>$id));
 	}
 
+	public function goods_type_count(){
+		return $this->db->count_all_results('ci_goods_type');
+	}
+
+	public function goods_type_list_page($limit, $offset){
+		$query = $this->db->limit($limit, $offset)->get('ci_goods_type');
+		return $query->result_array();
+	}
 
 
 

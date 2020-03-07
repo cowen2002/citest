@@ -7,13 +7,26 @@ class Goods_type extends Admin_Controller{
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->model('goods_type_model');
+		$this->load->library('pagination');
 		// $this->load->library('upload');#加载upload库，配置在applicaion/config/upload.php中
 	}
 
-	public function index(){
-		#获取品牌信息
-		$data['goods_types'] = $this->goods_type_model->goods_type_list();
+	public function index($offset=''){
+		#配置分页信息
+		$config['base_url'] = base_url('admin/goods_type/index');
+		$config['total_rows'] = $this->goods_type_model->goods_type_count();
+		$config['per_page'] = 2;
+		$config['uri_segment'] = 4;
+		#初始化分页类
+		$this->pagination->initialize($config);
+		#生成分页信息
+		$data['pageinfo'] = $this->pagination->create_links();
+		#获取分页信息
+		$data['goods_types'] = $this->goods_type_model->goods_type_list_page($config['per_page'], $offset);
+		#显示品牌信息
+		#$data['goods_types'] = $this->goods_type_model->goods_type_list();#不分页，全显示
 		$this->load->view('goods_type_list.html', $data);
+
 	}
 
 	public function add(){
