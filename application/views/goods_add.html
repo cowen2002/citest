@@ -208,16 +208,9 @@
 					<td>
 						<select name="goods_type" id="switch_goods_type">
 							<option value="0">请选择商品类型</option>
-							<option value="1">书</option>
-							<option value="2">音乐</option>
-							<option value="3">电影</option>
-							<option value="4">手机</option>
-							<option value="5">笔记本电脑</option>
-							<option value="6">数码相机</option>
-							<option value="7">数码摄像机</option>
-							<option value="8">化妆品</option>
-							<option value="9" selected="true">精品手机</option>
-							<option value="10">我的商品</option>                
+							<?php foreach($goods_types as $v): ?>
+							<option value="<?php echo $v['goods_type_id']; ?>"><?php echo $v['goods_type_name']?></option>
+							<?php endforeach; ?>             
 						</select><br>
 						<span class="notice-span" style="display:block" id="noticeGoodsType">请选择商品的所属类型，进而完善此商品的属性</span>
 					</td>
@@ -707,7 +700,7 @@
   	//ajax动态获取商品属性
   	$("#switch_goods_type").change(function(){
   		var url = "<?php echo base_url('admin/goods/get_attribute_by_goods_type_id'); ?>";
-  		$.get(url, {}, function(data){$("#attrTable").html(data);
+  		$.get(url, {'goods_type_id':this.value}, function(data){$("#attrTable").html(data);
   		});
   		//alert(url);
   	});

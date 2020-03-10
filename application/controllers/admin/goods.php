@@ -7,6 +7,8 @@ class Goods extends Admin_Controller{
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->model('goods_model');
+		$this->load->model('goods_type_model');
+		$this->load->model('attribute_model');
 		$this->load->library('pagination');
 		// $this->load->library('upload');#加载upload库，配置在applicaion/config/upload.php中
 	}
@@ -16,11 +18,18 @@ class Goods extends Admin_Controller{
 	}
 
 	public function add(){
-		$this->load->view('goods_add.html');
+		$data['goods_types'] = $this->goods_type_model->goods_type_list();
+		$this->load->view('goods_add.html', $data);
 	}
 
 	public function get_attribute_by_goods_type_id(){
-		echo 'htmls...';
+		$goods_type_id = $this->input->get('goods_type_id');
+		$attrs = $this->attribute_model->attribute_list_by_goods_type_id($goods_type_id);
+		var_dump($attrs);
+		//echo $attrs;
+
+
+		
 
 	}
 

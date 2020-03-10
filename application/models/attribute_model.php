@@ -13,8 +13,11 @@ class Attribute_model extends CI_Model{
 
 	
 	public function attribute_list_by_goods_type_id($goods_type_id){
-		$this->db->where('goods_type_id', $goods_type_id);
-		$query =  $this->db->get('ci_attribute');
+		// $this->db->where('goods_type_id', $goods_type_id);
+		// $query =  $this->db->get('ci_attribute');
+		//以上注释的语句也可以
+		$condition['goods_type_id'] = $goods_type_id;
+		$query = $this->db->where($condition)->get('ci_attribute');
 		return $query->result_array();
 	}
 
