@@ -33,7 +33,7 @@
 
     <!-- tab body -->
     <div id="tabbody-div">
-      <form enctype="multipart/form-data" action="" method="post" name="theForm"> 
+      <form enctype="multipart/form-data" action="<?php echo base_url('admin/goods/goods_insert'); ?>" method="post" name="theForm"> 
         <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
 		 
 		 <!-- 通用信息 -->
@@ -658,7 +658,7 @@
 
         <div class="button-div">
           <input type="hidden" name="goods_id" value="32">
-                    <input type="button" value=" 确定 " class="button" onclick="validate('32')">
+                    <input type="submit" value=" 确定 " class="button">
           <input type="reset" value=" 重置 " class="button">
         </div>
         <input type="hidden" name="act" value="update">
