@@ -64,17 +64,12 @@ class Goods extends Admin_Controller{
 
 		$html .= "</tbody>";
 		echo $html;
-
-						
-		//echo $attrs;
-
-
-		
-
 	}
 
 
+	public function goods_insert(){
 
+	}
 
 
 
