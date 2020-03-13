@@ -160,8 +160,8 @@
           </tr>
                               <tr>
             <td class="label"><a href="javascript:showNotice('noticeStorage');" title="点击此处查看提示信息"><img src="images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息"></a> 商品库存数量：</td>
-<!--            <td><input type="text" name="goods_number" value="4" size="20" readonly="readonly" /><br />-->
-            <td><input type="text" name="goods_number" value="4" size="20"><br>
+            <td><input type="text" name="goods_number" value="4" size="20" readonly="readonly" /><br />
+            <td><input type="text" name="click_count" value="4" size="20"><br>
             <span class="notice-span" style="display:block" id="noticeStorage">库存在商品为虚货或商品存在货品时为不可编辑状态，库存数值取决于其虚货数量或货品数量</span></td>
           </tr>
           <tr>
@@ -174,7 +174,7 @@
           </tr>
           <tr id="alone_sale_1">
             <td class="label" id="alone_sale_2">上架：</td>
-            <td id="alone_sale_3"><input type="checkbox" name="is_on_sale" value="1" checked="checked"> 打勾表示允许销售，否则不允许销售。</td>
+            <td id="alone_sale_3"><input type="checkbox" name="is_onsale" value="1" checked="checked"> 打勾表示允许销售，否则不允许销售。</td>
           </tr>
           <tr>
             <td class="label">能作为普通商品销售：</td>
@@ -206,7 +206,7 @@
 				<tr>
 					<td class="label">商品类型：</td>
 					<td>
-						<select name="goods_type" id="switch_goods_type">
+						<select name="type_id" id="switch_goods_type">
 							<option value="0">请选择商品类型</option>
 							<?php foreach($goods_types as $v): ?>
 							<option value="<?php echo $v['goods_type_id']; ?>"><?php echo $v['goods_type_name']?></option>

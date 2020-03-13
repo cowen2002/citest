@@ -10,7 +10,8 @@ class Goods extends Admin_Controller{
 		$this->load->model('goods_type_model');
 		$this->load->model('attribute_model');
 		$this->load->library('pagination');
-		// $this->load->library('upload');#加载upload库，配置在applicaion/config/upload.php中
+		$this->load->library('upload');#加载upload库，配置在applicaion/config/upload.php中
+		date_default_timezone_set("PRC");//设置时区
 	}
 
 	public function index(){
@@ -68,6 +69,82 @@ class Goods extends Admin_Controller{
 
 
 	public function goods_insert(){
+		$data['goods_name'] = $this->input->post('goods_name');
+		$data['goods_sn'] = $this->input->post('goods_sn');
+		$data['cat_id'] = $this->input->post('cat_id');
+		$data['brand_id'] = $this->input->post('brand_id');
+		$data['goods_brief'] = $this->input->post('goods_brief');
+		$data['goods_desc'] = $this->input->post('goods_desc');
+		$data['market_price'] = $this->input->post('market_price');
+		$data['shop_price'] = $this->input->post('shop_price');
+		$data['promote_price'] = $this->input->post('promote_price');
+		$data['promote_start_time'] = strtotime($this->input->post('promote_start_time'));
+		$data['promote_end_time'] = strtotime($this->input->post('promote_end_time'));
+		$data['goods_thumb'] = $this->input->post('goods_thumb');
+		$data['goods_number'] = $this->input->post('goods_number');
+		$data['click_count'] = $this->input->post('click_count');
+		$data['type_id'] = $this->input->post('type_id');
+		$data['is_promote'] = $this->input->post('is_promote');
+		$data['is_best'] = $this->input->post('is_best');
+		$data['is_new'] = $this->input->post('is_new');
+		$data['is_hot'] = $this->input->post('is_hot');
+		$data['is_onsale'] = $this->input->post('is_onsale');
+		if ($this->upload->do_upload('goods_img')) {
+			#上传图片成功，做缩略处理
+			$res = $this->upload->data();
+			$data['goods_img'] = $res['file_name'];
+			$config_img['image_library'] ='gd2';
+			$config_img['source_image'] = "./public/uploads/" . $res['file_name'];
+			$config_img['create_thumb'] = true;
+			$config_img['maintain_ratio'] = true;
+			$config_img['width'] = 160;
+			$config_img['height'] = 160;
+			$this->load->library('image_lib', $config_img);
+			if ($this->image_lib->resize()) {
+				# 缩略成功
+				$data['goods_thumb'] = $res['raw_name'].$this->image_lib->thumb_marker.$res['file_ext'];
+				if($this->goods_model->add($data)){
+					$arr = array(
+							'url' => base_url('admin/goods/add'),
+							'message' => '插入商品成功',
+							'wait' => 1
+							);
+					$this->load->view('message.html', $arr);	
+				} else {
+					$arr = array(
+							'url' => base_url('admin/goods/add'),
+							'message' => '插入商品失败',
+							'wait' => 3
+							);
+					$this->load->view('message.html', $arr);	
+				}
+
+
+			} else {
+				# 缩略失败
+				$arr = array(
+							'url' => base_url('admin/goods/add'),
+							'message' => $this->image_lib->display_errors(),
+							'wait' => 3
+							);
+				$this->load->view('message.html', $arr);	
+			}
+			
+
+
+		} else {
+			#上传图片失败，提示出错信息
+			$arr = array(
+						'url' => base_url('admin/goods/add'),
+						'message' => $this->upload->display_errors(),
+						'wait' => 3
+						);
+			$this->load->view('message.html', $arr);
+		}
+		
+
+
+
 
 	}
 
